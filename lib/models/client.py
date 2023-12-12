@@ -1,5 +1,5 @@
 from models.__init__ import CURSOR, CONN
-import datetime
+import datetime as dt
 
 class Client:
 
@@ -8,7 +8,7 @@ class Client:
     def __init__(self, name, origin, id = None):
         self.id = id
         self.name = name
-        self.date_joined = datetime.datetime.now().strftime('%m-%d-%Y')
+        self.date_joined = dt.datetime.now().strftime('%m-%d-%Y')
         self.origin = origin
     
     def __repr__(self):
@@ -51,6 +51,8 @@ class Client:
 
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
+    
+
     
 
 

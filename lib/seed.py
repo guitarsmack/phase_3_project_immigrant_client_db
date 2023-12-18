@@ -9,9 +9,10 @@ def seed_database():
     Clients.create_table()
     Countries.create_table()
 
+    
+    Countries.create('Brazil')
     Clients.create('Sierra','Brazil')
 
-    Countries.create('Brazil')
 
 seed_database()
 print("Sedded")

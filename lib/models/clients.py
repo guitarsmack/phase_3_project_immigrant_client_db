@@ -1,4 +1,5 @@
 from models.__init__ import CURSOR, CONN
+from models.countries import Countries
 import datetime as dt
 import countryinfo
 
@@ -30,23 +31,24 @@ class Clients:
     @property
     def origin(self):
         return self._origin
-    
+        
     @origin.setter
-    def origin(self,value):
+    def origin(self, value):
         country = countryinfo.CountryInfo(value)
-        if country:
-            self._origin = country.name().capitalize()
+        country_id = Countries.get_id_by_name(country.name().capitalize())
+        if country_id:
+            self._origin = country_id
         else:
-            raise Exception('Not valid country')
+            raise ValueError('Sorry, country not yet in database.')
+
 
     @classmethod
     def create_table(cls):
-        """Creates a client table, primarily for the seed file"""
         sql = """
         CREATE TABLE IF NOT EXISTS clients (
         id INTEGER PRIMARY KEY,
         name TEXT,
-        origin TEXT,
+        origin INTEGER,
         date_joined TEXT
         )
         """
@@ -77,11 +79,21 @@ class Clients:
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
 
-    # @classmethod
-    # def instance_from_db(cls,row):
-    #     client = cls.all.get(row[0])
+    @classmethod
+    def instance_from_db(cls,row):
 
-        # if client:
+        client = cls.all.get(row[0])
+
+        if client:
+            client.name = row[1]
+            client.origin = row[2]
+            client.date_joined = row[3]
+        else:
+            client = cls(row[1],row[2])
+            client.id = row[0]
+            cls.all[client.id] = client
+        
+        return client
     
     @classmethod
     def get_all(cls):
@@ -91,6 +103,29 @@ class Clients:
 
         all_rows = CURSOR.execute(sql).fetchall()
         return all_rows
+    
+    @classmethod
+    def get_by_id(cls,id):
+
+        sql = """
+        SELECT * FROM clients WHERE id = ?
+        """
+
+        row = CURSOR.execute(sql, (id,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+    
+    def delete_by_id(self,id):
+        sql = """
+        DELETE FROM clients WHERE id = ?
+        """
+
+        CURSOR.execute(sql, (id,))
+        CONN.commit()
+
+        del type(self).all[self.id]
+        self.id = None
+
+
 
 
 

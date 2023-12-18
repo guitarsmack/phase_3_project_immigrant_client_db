@@ -16,9 +16,19 @@ def seed_database():
     Clients.create_table()
     Countries.create_table()
 
-    Clients.create('Sierra','Brazil')
-
+    
     Countries.create('Brazil')
+    Countries.create('France')
+    Countries.create('United States')
+
+    Clients.create('Connor','France')
+    Clients.create('Vincent','France')
+    Clients.create('Sierra','Brazil')
+    Clients.create('Sonya','Brazil')
+    Clients.create('Julio','Brazil')
+    Clients.create('Luis','Brazil')
+    Clients.create('Bob','United States')
+
 
 seed_database()
 

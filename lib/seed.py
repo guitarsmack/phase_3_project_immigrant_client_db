@@ -1,17 +1,17 @@
 from models.__init__ import CONN, CURSOR
-from models.client import Client
-from models.country import Country
+from models.clients import Clients
+from models.countries import Countries
 
 def seed_database():
-    Client.drop_table()
-    Country.drop_table()
+    Clients.drop_table()
+    Countries.drop_table()
 
-    Client.create_table()
-    Country.create_table()
+    Clients.create_table()
+    Countries.create_table()
 
-    Client.create('Sierra','Brazil')
+    Clients.create('Sierra','Brazil')
 
-    Country.create('Brazil','Spanish')
+    Countries.create('Brazil')
 
 seed_database()
 print("Sedded")

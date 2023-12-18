@@ -1,7 +1,8 @@
 from models.__init__ import CURSOR, CONN
 import datetime as dt
+import countryinfo
 
-class Client:
+class Clients:
 
     all = {}
 
@@ -13,6 +14,30 @@ class Client:
     
     def __repr__(self):
         return f"<Client {self.id}: {self.name}, {self.origin}, {self.date_joined}>"
+    
+      
+    @property
+    def name(self):
+        return self._name
+    
+    @name.setter
+    def name(self,value):
+        if isinstance(value,str) and len(value) > 0:
+            self._name = value
+        else:
+            raise Exception('Name either not string or too short')
+    
+    @property
+    def origin(self):
+        return self._origin
+    
+    @origin.setter
+    def origin(self,value):
+        country = countryinfo.CountryInfo(value)
+        if country:
+            self._origin = country.name().capitalize()
+        else:
+            raise Exception('Not valid country')
 
     @classmethod
     def create_table(cls):
@@ -51,11 +76,21 @@ class Client:
 
         self.id = CURSOR.lastrowid
         type(self).all[self.id] = self
+
+    # @classmethod
+    # def instance_from_db(cls,row):
+    #     client = cls.all.get(row[0])
+
+        # if client:
     
+    @classmethod
+    def get_all(cls):
+        sql = """
+        Select * FROM clients
+        """
 
-    
-
-
+        all_rows = CURSOR.execute(sql).fetchall()
+        return all_rows
 
 
 

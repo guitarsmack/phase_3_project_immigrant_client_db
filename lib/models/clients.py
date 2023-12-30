@@ -31,15 +31,21 @@ class Clients:
     @property
     def origin(self):
         return self._origin
-        
+    
+
     @origin.setter
     def origin(self, value):
-        country = countryinfo.CountryInfo(value)
-        country_id = Countries.get_id_by_name(country.name().capitalize())
-        if country_id:
-            self._origin = country_id
+        if isinstance(value,int) :
+            id_ =Countries.check_valid_id(str(value))
+            self._origin = id_
         else:
-            raise ValueError('Sorry, country not yet in database.')
+            country = countryinfo.CountryInfo(value)
+            country_id = Countries.get_id_by_name(country.name().capitalize())
+            if country_id:
+                self._origin = country_id
+            else:
+                raise ValueError('Sorry, country not yet in database.')
+
 
 
     @classmethod
@@ -113,17 +119,38 @@ class Clients:
 
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
-    
-    def delete_by_id(self,id):
+
+
+    def delete(self):
         sql = """
         DELETE FROM clients WHERE id = ?
         """
 
-        CURSOR.execute(sql, (id,))
+        CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
         del type(self).all[self.id]
         self.id = None
+
+    @classmethod
+    def get_by_origin(cls,country):
+        sql = """
+        SELECT * FROM clients WHERE origin = ?
+        """
+
+        origin_id = Countries.get_id_by_name(country)
+
+        rows = CURSOR.execute(sql, (origin_id,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows]
+    
+    @classmethod
+    def get_by_language(cls,lang):
+        country_list = Countries.get_countries_by_language(lang.capitalize())
+        country_string = ', '.join('?' * len(country_list))
+
+        sql = f"SELECT * FROM clients WHERE origin IN ({country_string})"
+        rows = CURSOR.execute(sql, country_list).fetchall()
+        return [ cls.instance_from_db(row) for row in rows ]
 
 
 

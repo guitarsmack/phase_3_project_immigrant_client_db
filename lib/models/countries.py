@@ -20,9 +20,12 @@ class Countries:
     
     @name.setter
     def name(self,name):
-        country = countryinfo.CountryInfo(name)
-        if country.name():
+        if len(name) > 0 and isinstance(name,str):
+            country = countryinfo.CountryInfo(name)
             self._name = country.name().capitalize()
+        else:
+            raise Exception('Not valid country name')
+
     
     @property
     def language(self):
@@ -95,32 +98,61 @@ class Countries:
         return [cls.instance_from_db(row) for row in rows]
     
     @classmethod
-    def get_id_by_name(cls,name):
-        sql = """
-        SELECT id FROM countries WHERE name = ?
-        """
-        
-        row = CURSOR.execute(sql, (name,)).fetchone()
-
-        return row[0] if row else None
-    
-    @classmethod
-    def get_by_id(cls,id):
+    def check_valid_id(cls,id_):
         sql = """
         SELECT * FROM countries WHERE id = ?
         """
 
-        row = CURSOR.execute(sql, (id,)).fetchone()
-        return cls.instance_from_db(row)
+        row = CURSOR.execute(sql, (id_,)).fetchone()
+        return row[0] if row else None
+    
+    @classmethod
+    def get_id_by_name(cls,name):
+        sql = """
+        SELECT * FROM countries WHERE name = ?
+        """
+        
+        row = CURSOR.execute(sql, (name.capitalize(),)).fetchone()
+
+        return row[0] if row else None
+    
+    @classmethod
+    def get_by_id(cls,id_):
+        sql = """
+        SELECT * FROM countries WHERE id = ?
+        """
+
+        row = CURSOR.execute(sql, (id_,)).fetchone()
+        return cls.instance_from_db(row) if row else None
+
     
     
-    def delete_by_id(self,id):
+    def delete(self):
         sql = """
         DELETE FROM countries WHERE id = ?
         """
         
-        CURSOR.execute(sql, (id,))
+        CURSOR.execute(sql, (self.id,))
         CONN.commit()
 
         del type(self).all[self.id]
         self.id = None
+        
+
+    @classmethod
+    def get_countries_by_language(cls,lang):
+        sql = """
+        SELECT * FROM countries WHERE language = ?
+        """
+
+        rows = CURSOR.execute(sql, (lang,)).fetchall()
+        return [ row[0] for row in rows ]
+    
+    @classmethod
+    def get_by_language(cls,lang):
+        sql = """
+        SELECT * FROM countries WHERE language = ?
+        """
+
+        rows = CURSOR.execute(sql, (lang,)).fetchall()
+        return [ cls.instance_from_db(row) for row in rows ]

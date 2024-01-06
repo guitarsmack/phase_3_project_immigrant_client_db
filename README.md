@@ -13,4 +13,21 @@ Though it was useful to learn, the sqlite program doesn't accept dates as a data
 
 **pycountry** pycountry has a less information on specific data from countries, like what language one speaks, but a wider range of similar information. It has some information on countries, languages, language scripts and even currencies but I needed specifically the languages available to me. Using the abbreviation given to me by countryinfo, which is its alpha_2, I can search the languages for the correct one and get the name of what the alpha_2 returns. *pycountry* seems to have a lot of variety of information but not a great way to connect them, as in finding out what currency or language a country uses.
 
+## Options
+
+***clients.py***
+
+Holds all the functions for creating, searching and updating the database. It uses the datetime module to enter the date of when people join the organization. SQLITE does not support data for having a date in the database so it had to be converted to a string but it was a good way to learn some aspects of datetime. It also uses countryinfo module to make sure that a country of origin is an actual place. This is the many of the one-to-many relationship.
+
+***countries.py***
+
+Contains all the functions for creating, searching and updating the database for countries. This uses the countryinfo module and pycountry module that both work together to make sure that a country being added is a real country and also to get the primary language of said country. This is the one side of the one-to-many relationship.
+
+***cli.py***
+
+The direct interaction the user has with the database. This is done by editing, adding and removing data as well as just getting related groups of data.
+
+***helpers.py***
+
+This is the file that puts it all together. It helps the *cli.py* file use the functions in the *countries.py* and *clients.py* files and interpret it properly to be legible by the user.
 

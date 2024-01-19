@@ -69,9 +69,9 @@ def delete_country_by_id():
     id_ = input("Enter country ID to remove from database: ")
     if country := Countries.get_by_id(id_):
         country.delete()
-        print(f"Client {id_}, {country.name} deleted")
+        print(f"Origin {id_}, {country.name} deleted")
     else:
-        print(f"Client {id_} not found")
+        print(f"Origin {id_} not found")
     
 def get_countries():
     countries = Countries.get_all()

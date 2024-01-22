@@ -2,6 +2,8 @@ from models.__init__ import CURSOR, CONN
 import countryinfo
 import pycountry
 
+# Test new device push again
+
 class Countries:
 
     all = {}

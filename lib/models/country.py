@@ -4,7 +4,7 @@ import pycountry
 
 # Test new device push again
 
-class Countries:
+class Country:
 
     all = {}
 
@@ -42,7 +42,7 @@ class Countries:
     @classmethod
     def create_table(cls):
         sql = """
-        CREATE TABLE IF NOT EXISTS countries (
+        CREATE TABLE IF NOT EXISTS country (
         id INTEGER PRIMARY KEY,
         name TEXT,
         language TEXT
@@ -54,7 +54,7 @@ class Countries:
     
     @classmethod
     def drop_table(cls):
-        sql = """DROP TABLE IF EXISTS countries"""
+        sql = """DROP TABLE IF EXISTS country"""
 
         CURSOR.execute(sql)
         CONN.commit()
@@ -67,7 +67,7 @@ class Countries:
     
     def save(self):
         sql = """
-        INSERT INTO countries (name,language) VALUES (?,?)
+        INSERT INTO country (name,language) VALUES (?,?)
         """
         CURSOR.execute(sql, (self.name,self.language))
         CONN.commit()
@@ -93,7 +93,7 @@ class Countries:
     @classmethod
     def get_all(cls):
         sql = """
-        SELECT * FROM countries
+        SELECT * FROM country
         """
         rows = CURSOR.execute(sql).fetchall()
 
@@ -102,7 +102,7 @@ class Countries:
     @classmethod
     def check_valid_id(cls,id_):
         sql = """
-        SELECT * FROM countries WHERE id = ?
+        SELECT * FROM country WHERE id = ?
         """
 
         row = CURSOR.execute(sql, (id_,)).fetchone()
@@ -111,7 +111,7 @@ class Countries:
     @classmethod
     def get_id_by_name(cls,name):
         sql = """
-        SELECT * FROM countries WHERE name = ?
+        SELECT * FROM country WHERE name = ?
         """
         
         row = CURSOR.execute(sql, (name.capitalize(),)).fetchone()
@@ -121,7 +121,7 @@ class Countries:
     @classmethod
     def get_by_id(cls,id_):
         sql = """
-        SELECT * FROM countries WHERE id = ?
+        SELECT * FROM country WHERE id = ?
         """
 
         row = CURSOR.execute(sql, (id_,)).fetchone()
@@ -131,7 +131,7 @@ class Countries:
     
     def delete(self):
         sql = """
-        DELETE FROM countries WHERE id = ?
+        DELETE FROM country WHERE id = ?
         """
         
         CURSOR.execute(sql, (self.id,))
@@ -144,7 +144,7 @@ class Countries:
     @classmethod
     def get_countries_by_language(cls,lang):
         sql = """
-        SELECT * FROM countries WHERE language = ?
+        SELECT * FROM country WHERE language = ?
         """
 
         rows = CURSOR.execute(sql, (lang,)).fetchall()
@@ -153,7 +153,7 @@ class Countries:
     @classmethod
     def get_by_language(cls,lang):
         sql = """
-        SELECT * FROM countries WHERE language = ?
+        SELECT * FROM country WHERE language = ?
         """
 
         rows = CURSOR.execute(sql, (lang,)).fetchall()

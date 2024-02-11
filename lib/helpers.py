@@ -1,6 +1,6 @@
 # lib/helpers.py
-from models.clients import Clients
-from models.countries import Countries
+from models.client import Client
+from models.country import Country
 import random
 
 def exit_program():
@@ -10,36 +10,36 @@ def exit_program():
 
 def create_client():
     name = input("New client's name: ")
-    origin = input("Where is client from: ")
+    country = input("Where is client from: ")
     try:
-        client = Clients.create(name,origin)
+        client = Client.create(name,country)
         print(f"Success {client}")
     except Exception as exc:
         print("Error: ", exc)
 
 
 def get_clients():
-    clients = Clients.get_all()
+    clients = Client.get_all()
     return [ print(client) for client in clients]
 
 def get_client_by_id():
     id_ = input("Enter client ID to search by: ")
-    if client := Clients.get_by_id(id_):
+    if client := Client.get_by_id(id_):
         print(client)
     else:
         print(f"Client ID {id_} not found")
 
 def delete_client_by_id():
     id_ = input("Enter client ID to remove from database: ")
-    if client := Clients.get_by_id(id_):
+    if client := Client.get_by_id(id_):
         client.delete()
         print(f"Client {id_}, {client.name} deleted")
     else:
         print(f"Client {id_} not found")
 
-def get_clients_by_origin():
+def get_clients_by_country():
     origin = input("Enter country to get clients from there: ")
-    if clients := Clients.get_by_origin(origin):
+    if clients := Client.get_by_country(origin):
         try:
             [ print(client) for client in clients ]
         except Exception as exc:
@@ -49,7 +49,7 @@ def get_clients_by_origin():
 
 def get_clients_by_language():
     language = input("Enter language to get clients who speak it: ")
-    if clients := Clients.get_by_language(language):
+    if clients := Client.get_by_language(language):
         try:
             [ print(client) for client in clients ]
         except Exception as exc:
@@ -60,33 +60,33 @@ def get_clients_by_language():
 def create_country():
     name = input("What country to add: ")
     try :
-        country = Countries.create(name)
+        country = Country.create(name)
         print(f"Success: {country}")
     except Exception as exc:
         print("Error: ", exc)
     
 def delete_country_by_id():
     id_ = input("Enter country ID to remove from database: ")
-    if country := Countries.get_by_id(id_):
+    if country := Country.get_by_id(id_):
         country.delete()
         print(f"Origin {id_}, {country.name} deleted")
     else:
         print(f"Origin {id_} not found")
     
 def get_countries():
-    countries = Countries.get_all()
+    countries = Country.get_all()
     return [print(country) for country in countries]
 
 def get_country_by_id():
     id_ = input("Enter country ID to search by: ")
-    if country := Countries.get_by_id(id_):
+    if country := Country.get_by_id(id_):
         print(country)
     else:
         print(f"Country ID {id_} not found")
     
 def get_countries_by_language():
     language = input("Enter language to get countries who primarily speak it: ").capitalize()
-    if countries := Countries.get_by_language(language):
+    if countries := Country.get_by_language(language):
         try:
             [ print(country) for country in countries ]
         except Exception as exc:
@@ -94,5 +94,3 @@ def get_countries_by_language():
     else:
         print(f"No countries who speak {language}")
 
-
-#jklj

@@ -1,17 +1,39 @@
 from models.__init__ import CONN, CURSOR
-from models.clients import Clients
-from models.countries import Countries
+from models.client import Client
+from models.country import Country
 
 def seed_database():
-    Clients.drop_table()
-    Countries.drop_table()
+    Client.drop_table()
+    Country.drop_table()
 
-    Clients.create_table()
-    Countries.create_table()
+    Client.create_table()
+    Country.create_table()
 
     
-    Countries.create('Brazil')
-    Clients.create('Sierra','Brazil')
+    Country.create('Brazil')
+    Country.create('France')
+    Country.create('United States')
+    Country.create('Mexico')
+    Country.create('Cuba')
+    Country.create('Honduras')
+
+    Client.create('Connor','France')
+    Client.create('Vincent','France')
+    Client.create('Sierra','Brazil')
+    Client.create('Sonya','Brazil')
+    Client.create('Julio','Brazil')
+    Client.create('Luis','Brazil')
+    Client.create('Bob','United States')
+    Client.create('Jose','Mexico')
+    Client.create('Carolina','Mexico')
+    Client.create('Santana','Mexico')
+    Client.create('Alex','Honduras')
+    Client.create('Philip','Honduras')
+    Client.create('Julio','Mexico')
+    Client.create('Luis','Cuba')
+    Client.create('Fidel','Cuba')
+    Client.create('Che','Cuba')
+
 
 
 seed_database()

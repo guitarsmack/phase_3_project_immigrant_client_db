@@ -5,7 +5,7 @@ from helpers import (
     get_clients,
     get_client_by_id,
     delete_client_by_id,
-    get_clients_by_origin,
+    get_clients_by_country,
     get_clients_by_language,
     create_client,
     create_country,
@@ -31,7 +31,7 @@ def main():
         elif choice == "4":
             get_client_by_id()
         elif choice == "5":
-            get_clients_by_origin()
+            get_clients_by_country()
         elif choice == "6":
             get_clients_by_language()
         elif choice == "7":

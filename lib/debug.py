@@ -2,44 +2,44 @@
 # lib/debug.py
 
 from models.__init__ import CONN, CURSOR
-from models.clients import Clients
-from models.countries import Countries
+from lib.models.client import Client
+from lib.models.country import Country
 import countryinfo
 import pycountry
 
 import ipdb
 
 def seed_database():
-    Clients.drop_table()
-    Countries.drop_table()
+    Client.drop_table()
+    Country.drop_table()
 
-    Clients.create_table()
-    Countries.create_table()
+    Client.create_table()
+    Country.create_table()
 
     
-    Countries.create('Brazil')
-    Countries.create('France')
-    Countries.create('United States')
-    Countries.create('Mexico')
-    Countries.create('Cuba')
-    Countries.create('Honduras')
+    Country.create('Brazil')
+    Country.create('France')
+    Country.create('United States')
+    Country.create('Mexico')
+    Country.create('Cuba')
+    Country.create('Honduras')
 
-    Clients.create('Connor','France')
-    Clients.create('Vincent','France')
-    Clients.create('Sierra','Brazil')
-    Clients.create('Sonya','Brazil')
-    Clients.create('Julio','Brazil')
-    Clients.create('Luis','Brazil')
-    Clients.create('Bob','United States')
-    Clients.create('Jose','Mexico')
-    Clients.create('Carolina','Mexico')
-    Clients.create('Santana','Mexico')
-    Clients.create('Alex','Honduras')
-    Clients.create('Philip','Honduras')
-    Clients.create('Julio','Mexico')
-    Clients.create('Luis','Cuba')
-    Clients.create('Fidel','Cuba')
-    Clients.create('Che','Cuba')
+    Client.create('Connor','France')
+    Client.create('Vincent','France')
+    Client.create('Sierra','Brazil')
+    Client.create('Sonya','Brazil')
+    Client.create('Julio','Brazil')
+    Client.create('Luis','Brazil')
+    Client.create('Bob','United States')
+    Client.create('Jose','Mexico')
+    Client.create('Carolina','Mexico')
+    Client.create('Santana','Mexico')
+    Client.create('Alex','Honduras')
+    Client.create('Philip','Honduras')
+    Client.create('Julio','Mexico')
+    Client.create('Luis','Cuba')
+    Client.create('Fidel','Cuba')
+    Client.create('Che','Cuba')
 
 
 
